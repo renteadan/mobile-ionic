@@ -1,17 +1,18 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import {
   IonApp,
-  IonIcon,
-  IonLabel,
   IonRouterOutlet,
   IonTabBar,
+  IonTabs,
   IonTabButton,
-  IonTabs
+  IonIcon,
+  IonLabel
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { triangle } from 'ionicons/icons';
+import { ellipse, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
+import LoginPage from './pages/LoginPage';
 // import Tab2 from './pages/Tab2';
 
 /* Core CSS required for Ionic components to work properly */
@@ -32,25 +33,31 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import PrivateRoute from './components/PrivateRoute';
+import Tab2 from './pages/Tab2';
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route path="/tab1" component={Tab1} exact={true} />
-          {/* <Route path="/tab2" component={Tab2} exact={true} /> */}
-          <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
+          <Route path="/" component={LoginPage} exact={true} />
+          <PrivateRoute path='/tab' exact={true}>
+            <Tab1 />
+          </PrivateRoute>
+          <PrivateRoute path='/tab2' exact={true}>
+            <Tab2 />
+          </PrivateRoute>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
+          <IonTabButton tab="tab" href="/tab">
             <IonIcon icon={triangle} />
             <IonLabel>Tab 1</IonLabel>
           </IonTabButton>
-          {/* <IonTabButton tab="tab2" href="/tab2">
+          <IonTabButton tab="tab2" href="/tab2">
             <IonIcon icon={ellipse} />
             <IonLabel>Tab 2</IonLabel>
-          </IonTabButton> */}
+          </IonTabButton>
         </IonTabBar>
       </IonTabs>
     </IonReactRouter>

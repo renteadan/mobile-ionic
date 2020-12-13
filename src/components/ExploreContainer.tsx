@@ -1,58 +1,67 @@
 import { IonContent, IonItem, IonLabel, IonList, IonModal, IonButton } from '@ionic/react';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './ExploreContainer.css';
 import Service from '../service/service';
+import { Bike } from '../models/BikeList';
 
-interface ContainerProps {
+interface IContainerProps {
   name: string;
 }
 
-interface Team {
-  name: string;
-  city: string;
+interface IContainerState {
+  bikes: Bike[];
+  showModal: string;
 }
 
-const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
-  const [teams, setTeams] = useState([]);
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const [showModal, setShowModal] = useState('');
-  const service = new Service();
-  useEffect(() => {
-    async function loadData() {
-      const result = await service.getTeams();
-      service.getTeamsWithWs();
-      setTeams(result);
-    };
-    if(!dataLoaded)
-      loadData();
-    setDataLoaded(true);
-  }, [dataLoaded, service]);
+class ExploreContainer extends React.Component<IContainerProps, IContainerState> {
+  service: Service;
+  constructor(props: IContainerProps) {
+    super(props);
+    this.state = {
+      bikes: [],
+      showModal: ''
+    }
+    this.service = new Service();
+  }
 
-  function generate(teams: Team[]) {
-  return teams.map(team => {
-    return (
-      <IonItem key={team.name}
-      >
-        <IonLabel onClick={() => setShowModal(team.name)}>{team.name}</IonLabel>
-        <IonModal
-          isOpen={team.name === showModal}
+  generate(bikes: Bike[]) {
+    return bikes.map(bike => {
+      return (
+        <IonItem key={bike.name}
         >
-          <p>Team name: {team.name}</p>
-          <p>Team city: {team.city}</p>
-          <IonButton onClick={() => setShowModal('')}>Close</IonButton>
-        </IonModal>
-      </IonItem>
-    );
-  });
-}
+          <IonLabel onClick={() => this.setState({
+            showModal: bike.name
+          })}>{bike.name}</IonLabel>
+          <IonModal
+            isOpen={bike.name === this.state.showModal}
+          >
+            <p>Bike name: {bike.name}</p>
+            <p>Bike model: {bike.model}</p>
+            <img src={bike.img_url} alt="Team pic" height="300px" width="auto"/>
+            <IonButton onClick={() => this.setState({
+              showModal: ''
+            })}>Close</IonButton>
+          </IonModal>
+        </IonItem>
+      );
+    });
+  }
 
-  return (
-    <IonContent class="container">
-      <IonList>
-        {generate(teams)}
-      </IonList>
-    </IonContent>
-  );
-};
+  async componentDidMount() {
+    const { data } = await this.service.getBikes();
+    this.setState({ bikes: data });
+  }
+
+  render() {
+    const { bikes } = this.state;
+    return (
+      <IonContent class="container">
+        <IonList>
+          {this.generate(bikes)}
+        </IonList>
+      </IonContent>
+    );
+  }
+}
 
 export default ExploreContainer;
