@@ -1,5 +1,4 @@
 import axios from 'axios';
-import io from 'socket.io-client';
 import { BikeList } from '../models/BikeList';
 import { Plugins } from '@capacitor/core';
 export default class Service {
@@ -22,6 +21,9 @@ export default class Service {
   }
 
   async saveLocalBikes(bikes: BikeList): Promise<void> {
+    const bikeList = await this.getLocalBikes();
+    if(bikeList.data.length > bikes.data.length)
+    return;
     await this.storage.set({
       key: 'bikes',
       value: JSON.stringify(bikes),
@@ -42,20 +44,11 @@ export default class Service {
     };
   }
 
-  async getBikes(skip?: number, limit?: number): Promise<BikeList> {
-    const params: any = {
-      skip: 0,
-    };
-    if (skip) {
-      params.skip = skip;
-    }
-    if (limit) {
-      params.limit = limit;
-    }
+  async getBikes(filters?: {skip?: number; limit?: number; name?: string}): Promise<BikeList> {
     try {
       const result = await this.instance.get('/bicycle/list', {
         headers: this.authHeader(),
-        params,
+        params: filters,
       });
       await this.saveLocalBikes(result.data);
       return result.data;
@@ -84,11 +77,15 @@ export default class Service {
   }
 
   getTeamsWithWs() {
-    const ws = io.connect(this.host);
+    const ws = new WebSocket('ws://localhost:3000');
+    ws.onopen = (e) => {
+      console.log('open socket');
+      ws.send('mesajjj');
+    }
 
-    ws.on('score', (response: any) => {
-      alert(response);
-    });
+    ws.onmessage = (event) => {
+      alert(`[message] Data received from server: ${event.data}`);
+    };
   }
 
   logout() {

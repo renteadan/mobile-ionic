@@ -10,7 +10,7 @@ import {
   IonLabel
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, triangle } from 'ionicons/icons';
+import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import LoginPage from './pages/LoginPage';
 // import Tab2 from './pages/Tab2';
@@ -35,6 +35,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import PrivateRoute from './components/PrivateRoute';
 import Tab2 from './pages/Tab2';
+import Tab3 from './pages/Tab3';
 
 const App: React.FC = () => (
   <IonApp>
@@ -48,6 +49,9 @@ const App: React.FC = () => (
           <PrivateRoute path='/tab2' exact={true}>
             <Tab2 />
           </PrivateRoute>
+          <PrivateRoute path='/tab3' exact={true}>
+            <Tab3 />
+          </PrivateRoute>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab" href="/tab">
@@ -57,6 +61,10 @@ const App: React.FC = () => (
           <IonTabButton tab="tab2" href="/tab2">
             <IonIcon icon={ellipse} />
             <IonLabel>Tab 2</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="tab3" href="/tab3">
+            <IonIcon icon={square} />
+            <IonLabel>Tab 3</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>

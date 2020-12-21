@@ -24,7 +24,7 @@ class Tab2 extends React.Component<ITab2Props, ITab2State> {
   }
 
   async fetchData(skip: number, limit: number) {
-    const response = await this.service.getBikes(skip, limit);
+    const response = await this.service.getBikes({skip, limit});
     const bikes = response.data;
     if(bikes && bikes.length > this.state.pageSize) {
       this.setState({

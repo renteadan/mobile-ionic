@@ -31,6 +31,7 @@ class Tab1 extends React.Component<ITab1Props, ITab1State> {
     if(redirect) {
       return <Redirect to={redirect} />;
     }
+    // this.service.getTeamsWithWs();
     return (
       <IonPage>
         <IonHeader>
