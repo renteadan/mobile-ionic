@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { BikeList } from '../models/BikeList';
+import { Bike, BikeList } from '../models/BikeList';
 import { Plugins } from '@capacitor/core';
 export default class Service {
 
-  host = 'http://localhost:3000';
+  host = 'http://192.168.0.131:3000';
   instance = axios.create({
     baseURL: this.host
   });
@@ -42,6 +42,17 @@ export default class Service {
         count: 0,
       }
     };
+  }
+
+  async updateBike(bike: Bike) {
+    try {
+      const result = await this.instance.put(`/bicycle/${bike.id}`, bike ,{
+        headers: this.authHeader(),
+      });
+      return result.data;
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   async getBikes(filters?: {skip?: number; limit?: number; name?: string}): Promise<BikeList> {

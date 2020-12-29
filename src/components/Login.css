@@ -6,8 +6,13 @@
   align-items: center;
 }
 
+.container {
+  display: flex;
+  margin-top: 10%;
+}
+
 .form {
-  width: 30%;
+  display: flexbox;
 }
 
 .message {
