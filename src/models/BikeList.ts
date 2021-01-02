@@ -6,6 +6,8 @@ export interface Bike {
   name: string;
   model: string;
   img_url: string;
+  lat: number;
+  lon: number;
 }
 
 export interface BikeList {

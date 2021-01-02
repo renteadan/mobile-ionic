@@ -4,6 +4,7 @@ import './ExploreContainer.css';
 import Service from '../service/service';
 import { Bike } from '../models/BikeList';
 import { Camera, DestinationType, MediaType } from '@ionic-native/camera';
+import {initMap} from './GMap';
 
 interface IContainerProps {
   name: string;
@@ -37,6 +38,12 @@ class ExploreContainer extends React.Component<IContainerProps, IContainerState>
   }
 
   generate(bikes: Bike[]) {
+    const log = (bike: Bike) => async (a: any, b: any) => {
+      bike.lat = a;
+      bike.lon = b;
+      await this.service.updateBike(bike);
+      window.location.reload();
+    }
     return bikes.map(bike => {
       return (
           <IonItem key={bike.name}>
@@ -48,10 +55,12 @@ class ExploreContainer extends React.Component<IContainerProps, IContainerState>
             </IonThumbnail>
             <IonModal
               isOpen={bike.name === this.state.showModal}
+              onDidPresent={() => initMap({lat: bike.lat || 0, lng: bike.lon || 0}, log(bike))}
             >
               <p>Bike name: {bike.name}</p>
               <p>Bike model: {bike.model}</p>
               <img src={bike.img_url} alt="Team pic" height="300px" width="auto"/>
+              <div id="map"></div>
               <IonButton onClick={() => this.setState({
                 showModal: ''
               })}>Close</IonButton>
