@@ -43,13 +43,13 @@ const App: React.FC = () => (
       <IonTabs>
         <IonRouterOutlet>
           <Route path="/" component={LoginPage} exact={true} />
-          <PrivateRoute path='/tab' exact={true}>
+          <PrivateRoute path="/tab" exact={true}>
             <Tab1 />
           </PrivateRoute>
-          <PrivateRoute path='/tab2' exact={true}>
+          <PrivateRoute path="/tab2" exact={true}>
             <Tab2 />
           </PrivateRoute>
-          <PrivateRoute path='/tab3' exact={true}>
+          <PrivateRoute path="/tab3" exact={true}>
             <Tab3 />
           </PrivateRoute>
         </IonRouterOutlet>

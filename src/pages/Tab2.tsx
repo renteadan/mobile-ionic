@@ -1,6 +1,12 @@
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/react';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent
+} from '@ionic/react';
 import React from 'react';
-import {RouteComponentProps, withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import InfiniteScroll from '../components/InfiniteScroll';
 import Service from '../service/service';
 
@@ -19,30 +25,28 @@ class Tab2 extends React.Component<ITab2Props, ITab2State> {
     this.state = {
       items: [],
       disableInfiniteScroll: false,
-      pageSize: 20,
-    }
+      pageSize: 20
+    };
   }
 
   async fetchData(skip: number, limit: number) {
-    const response = await this.service.getBikes({skip, limit});
+    const response = await this.service.getBikes({ skip, limit });
     const bikes = response.data;
-    if(bikes && bikes.length > this.state.pageSize) {
+    if (bikes && bikes.length > this.state.pageSize) {
       this.setState({
         items: bikes,
-        disableInfiniteScroll: true,
+        disableInfiniteScroll: true
       });
       return;
     }
     if (bikes && bikes.length > 0) {
-      this.setState(
-        {
-          items: [...this.state.items, ...bikes],
-          disableInfiniteScroll: bikes.length < this.state.pageSize,
-        }
-      )
+      this.setState({
+        items: [...this.state.items, ...bikes],
+        disableInfiniteScroll: bikes.length < this.state.pageSize
+      });
     } else {
       this.setState({
-        disableInfiniteScroll: true,
+        disableInfiniteScroll: true
       });
     }
   }
@@ -61,11 +65,16 @@ class Tab2 extends React.Component<ITab2Props, ITab2State> {
               <IonTitle size="large">Tab 1</IonTitle>
             </IonToolbar>
           </IonHeader>
-          <InfiniteScroll {...this.state} fetchData={async (skip: number, limit: number) => await this.fetchData(skip, limit)}/>
+          <InfiniteScroll
+            {...this.state}
+            fetchData={async (skip: number, limit: number) =>
+              await this.fetchData(skip, limit)
+            }
+          />
         </IonContent>
       </IonPage>
     );
   }
-};
+}
 
 export default withRouter(Tab2);

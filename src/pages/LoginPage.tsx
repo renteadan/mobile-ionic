@@ -29,23 +29,23 @@ class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
 
   async componentDidMount() {
     const auth = await this.service.verify();
-    if(auth) {
+    if (auth) {
       this.setState({
         redirect: '/tab'
-      })
+      });
     }
   }
 
   handleChange = (data: any) => {
     this.setState({
       ...data,
-      isError: false,
+      isError: false
     });
   };
   clearUserData() {
     this.setState({
       password: '',
-      isError: true,
+      isError: true
     });
   }
 
@@ -60,15 +60,15 @@ class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
     } catch (error) {
       console.log(error);
       this.setState({
-        isError: true,
+        isError: true
       });
       this.clearUserData();
     }
   };
 
   render() {
-    const {redirect} = this.state;
-    if(redirect) {
+    const { redirect } = this.state;
+    if (redirect) {
       return <Redirect to={redirect} />;
     }
     return (
@@ -78,7 +78,6 @@ class LoginPage extends React.Component<LoginPageProps, LoginPageState> {
           handleChange={this.handleChange}
           submit={this.submit}
         ></Login>
-
       </div>
     );
   }

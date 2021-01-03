@@ -1,13 +1,17 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import {  RouteComponentProps, withRouter } from 'react-router-dom';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar
+} from '@ionic/react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import Service from '../service/service';
 import SearchContainer from '../components/SearchContainer';
 
 interface ITab1Props extends RouteComponentProps {}
-interface ITab1State {
-
-}
+interface ITab1State {}
 
 class Tab3 extends React.Component<ITab1Props, ITab1State> {
   service: Service;
@@ -34,6 +38,6 @@ class Tab3 extends React.Component<ITab1Props, ITab1State> {
       </IonPage>
     );
   }
-};
+}
 
 export default withRouter(Tab3);

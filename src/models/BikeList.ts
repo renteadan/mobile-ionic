@@ -1,5 +1,3 @@
-
-
 export interface Bike {
   id: number;
   user_id: number;
@@ -11,8 +9,8 @@ export interface Bike {
 }
 
 export interface BikeList {
-  data: Bike[],
+  data: Bike[];
   metadata: {
-    count: number
-  }
+    count: number;
+  };
 }
